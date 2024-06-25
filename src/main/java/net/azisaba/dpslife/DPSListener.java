@@ -1,11 +1,13 @@
 package net.azisaba.dpslife;
 
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class DPSListener implements Listener {
@@ -30,5 +32,18 @@ public class DPSListener implements Listener {
 
             ShowDPS.show(p, DPS.getDamage(p.getUniqueId(), living.getUniqueId()));
         });
+    }
+
+    @EventHandler
+    public void onDespawn(@NotNull EntityRemoveFromWorldEvent e) {
+        if (!(e.getEntity() instanceof LivingEntity)) return;
+        LivingEntity living = (LivingEntity) e.getEntity();
+        DPSLife.getPlugin().runAsync(()-> DPS.remove(living.getUniqueId()));
+    }
+
+    @EventHandler
+    public void onQuit(@NotNull PlayerQuitEvent e) {
+        Player p = e.getPlayer();
+        DPSLife.getPlugin().runAsync(()-> new DPS().clear(p.getUniqueId()));
     }
 }

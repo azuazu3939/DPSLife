@@ -42,7 +42,7 @@ public class DPSCommand implements TabExecutor {
 
     @Override
     public @org.jetbrains.annotations.Nullable List<String> onTabComplete(@org.jetbrains.annotations.NotNull CommandSender commandSender, @org.jetbrains.annotations.NotNull Command command, @org.jetbrains.annotations.NotNull String s, @org.jetbrains.annotations.NotNull String @NotNull [] strings) {
-        if (strings.length != 1) return new ArrayList<>(Arrays.asList("on", "off", "clear"));
+        if (strings.length == 1) return new ArrayList<>(Arrays.asList("on", "off", "clear"));
         return null;
     }
 
